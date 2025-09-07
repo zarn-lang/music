@@ -29,11 +29,10 @@ from ANNIEMUSIC.utils.stream.stream import stream
 
 
 @app.on_message(
-    filters.command([
-        "play", "vplay", "cplay", "cvplay",
-        "playforce", "vplayforce", "cplayforce", "cvplayforce"
-    ]) & filters.group & ~BANNED_USERS
-)
+    (filters.regex(r'^(play|تشغيل|vplay|cplay|cvplay|playforce|vplayforce|cplayforce|cvplayforce)$', flags=0))
+    & filters.group
+    & ~BANNED_USERS
+)     
 @PlayWrapper
 @capture_err
 async def play_command(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
