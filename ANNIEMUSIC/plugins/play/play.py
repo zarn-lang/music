@@ -27,18 +27,20 @@ from ANNIEMUSIC.utils.inline import (
 from ANNIEMUSIC.utils.logger import play_logs
 from ANNIEMUSIC.utils.stream.stream import stream
 
-
-@app.on_message(filters.text & filters.group & ~BANNED_USERS)
-@PlayWrapper
-@capture_err
-async def play_command(client, message):
-    cmd = message.text.strip().lower()
-
-    if cmd in [
+@app.on_message(
+    filters.command(["تشغيل","شغل"])
+    & filters.group
+    
+    & ~BANNED_USERS
+)
+@app.on_message(
+    filters.command([
         "play", "vplay", "cplay", "cvplay",
         "playforce", "vplayforce", "cplayforce", "cvplayforce"
-    ]:
-        return
+    ]) & filters.group & ~BANNED_USERS
+)
+@PlayWrapper
+@capture_err
 async def play_command(client, message: Message, _, chat_id, video, channel, playmode, url, fplay):
     try:
         mystic = await message.reply_text(
